@@ -740,3 +740,44 @@ body.transition * {
   filter: blur(10px);
   transition: filter var(--timing-normal) ease;
 }
+
+/* Tags List Styles */
+.tags-list {
+  padding: var(--spacing-md) 0;
+}
+
+.tag-item {
+  background-color: var(--ios-card);
+  border-radius: 14px;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform var(--timing-fast) ease;
+}
+
+.tag-item:active {
+  transform: scale(0.98);
+}
+
+.tag-item.active {
+  background-color: var(--ios-blue);
+  color: white;
+}
+
+.tag-count {
+  background-color: var(--ios-light-gray);
+  color: var(--ios-text-secondary);
+  padding: 2px var(--spacing-sm);
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.tag-item.active .tag-count {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* End Tags List Styles */
