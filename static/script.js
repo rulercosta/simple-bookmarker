@@ -583,3 +583,22 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
     window.currentTheme = 'light';
   }
 });
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+      const basePath = window.location.pathname.includes('simple-tasks') 
+          ? '/simple-tasks'
+          : '';
+      
+      navigator.serviceWorker.register(`${basePath}/sw.js`, {
+          scope: `${basePath}/`
+      })
+          .then(registration => {
+              console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(err => {
+              console.error('ServiceWorker registration failed: ', err);
+          });
+  });
+}
