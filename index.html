@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bookmarker</title>
+  <!-- Prevent flash of wrong theme -->
+  <script>
+    // Apply saved theme immediately before any rendering
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      window.currentTheme = savedTheme || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-theme');
+      }
+    })();
+  </script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="./static/styles.css">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <div class="nav-bar">
+    <div class="nav-header">
+      <h1 class="nav-title">Bookmarker</h1>
+      <div style="display: flex; align-items: center;">
+        <button class="theme-toggle" id="theme-toggle">
+          <script>
+            // Immediately set the correct theme icon
+            document.write('<span class="material-icons" id="theme-icon">' + 
+              (window.currentTheme === 'dark' ? 'light_mode' : 'dark_mode') + 
+              '</span>');
+          </script>
+        </button>
+        <button class="header-button" id="add-button">
+          <span class="material-icons">add</span>
+        </button>
+      </div>
+    </div>
+    <div class="search-bar">
+      <span class="material-icons">search</span>
+      <input type="text" id="search-input" placeholder="Search bookmarks">
+    </div>
+    
+    <!-- iOS Segmented Control -->
+    <div class="segmented-control" id="view-selector">
+      <div class="segment selected" data-view="all-view" id="segment-all">All</div>
+      <div class="segment" data-view="tags-view" id="segment-tags">Tags</div>
+      <div class="segment-selector"></div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- View - All -->
+    <div class="view-container active" id="all-view">
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state">
+        <span class="material-icons empty-icon">bookmarks</span>
+        <h2 class="empty-title">No Bookmarks Yet</h2>
+        <p class="empty-description">Add your first bookmark by tapping the + button in the header.</p>
+      </div>
+
+      <!-- Bookmarks List -->
+      <div id="bookmarks-container" class="bookmark-list">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+    
+    <!-- View - Tags -->
+    <div class="view-container" id="tags-view">
+      <!-- Tags Empty State -->
+      <div class="empty-state visible" id="tags-empty-state">
+        <span class="material-icons empty-icon">sell</span>
+        <h2 class="empty-title">Tags</h2>
+        <p class="empty-description">Add tags to your bookmarks to organize them.</p>
+      </div>
+
+      <!-- Tags List - To be implemented later -->
+      <div id="tags-container" class="tags-list">
+        <!-- Will be populated when implementing Tags view -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit Bookmark Modal -->
+  <div class="modal-overlay" id="modal-overlay"></div>
+  <div class="modal" id="bookmark-modal">
+    <div class="modal-header">
+      <button type="button" class="modal-button cancel" id="modal-cancel">
+        <span class="material-icons">close</span>
+      </button>
+      <h2 class="modal-title" id="modal-title">Add Bookmark</h2>
+      <button type="submit" form="bookmark-form" class="modal-button" id="modal-save">
+        <span class="material-icons">save</span>
+      </button>
+    </div>
+    <div class="modal-content">
+      <form id="bookmark-form">
+        <div class="form-group">
+          <label class="form-label" for="bookmark-url">URL</label>
+          <input type="url" id="bookmark-url" name="bookmark-url" class="form-input" placeholder="https://example.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="bookmark-title">Title</label>
+          <input type="text" id="bookmark-title" name="bookmark-title" class="form-input" placeholder="Website Title" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="bookmark-tags">Tags</label>
+          <input type="text" id="bookmark-tags" name="bookmark-tags" class="form-input" placeholder="news, tech, reference">
+          <p class="tags-input-hint">Separate tags with commas</p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div class="context-menu" id="context-menu">
+    <div class="context-menu-item" id="context-edit">
+      <span class="material-icons">edit</span>
+      <span>Edit</span>
+    </div>
+    <div class="context-menu-item" id="context-copy">
+      <span class="material-icons">content_copy</span>
+      <span>Copy URL</span>
+    </div>
+    <div class="context-menu-divider"></div>
+    <div class="context-menu-item delete" id="context-delete">
+      <span class="material-icons">delete</span>
+      <span>Delete</span>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+  <script src="./static/script.js"></script>
+</body>
+</html>
