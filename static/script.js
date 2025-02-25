@@ -587,8 +587,8 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-      const basePath = window.location.pathname.includes('simple-tasks') 
-          ? '/simple-tasks'
+      const basePath = window.location.pathname.includes('simple-bookmarker') 
+          ? '/simple-bookmarker'
           : '';
       
       navigator.serviceWorker.register(`${basePath}/sw.js`, {
