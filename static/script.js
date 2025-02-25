@@ -77,7 +77,9 @@ const elements = {
   allView: document.getElementById('all-view'),
   tagsView: document.getElementById('tags-view'),
   tagsContainer: document.getElementById('tags-container'),
-  tagsEmptyState: document.getElementById('tags-empty-state')
+  tagsEmptyState: document.getElementById('tags-empty-state'),
+  footer: document.getElementById('ios-footer'),
+  footerCount: document.getElementById('footer-count')
 };
 
 // Event Listeners
@@ -177,6 +179,8 @@ function switchView(viewId) {
   if (viewId === 'tags-view') {
     loadBookmarks(); // This will now update both bookmarks and tags
   }
+  
+  updateFooterCount(); // Add this line
 }
 
 // Load the previously selected view from localStorage
@@ -272,6 +276,8 @@ function renderBookmarks(bookmarks) {
       elements.bookmarksContainer.appendChild(bookmarkElement);
     });
   }
+  
+  updateFooterCount(); // Add this line
 }
 
 // Create bookmark element
@@ -625,6 +631,27 @@ async function updateTagsView(bookmarks) {
       loadBookmarks();
     });
   });
+  
+  updateFooterCount(); // Add this line
+}
+
+// Add this new function
+function updateFooterCount() {
+  let count = 0;
+  
+  // Get currently active view
+  const activeView = document.querySelector('.view-container.active');
+  
+  if (activeView.id === 'all-view') {
+    // Count visible bookmark items
+    count = activeView.querySelectorAll('.bookmark-item').length;
+    elements.footerCount.textContent = `${count} bookmark${count !== 1 ? 's' : ''}`;
+  } else if (activeView.id === 'tags-view') {
+    // Count visible tag items (excluding the "All" tag)
+    count = activeView.querySelectorAll('.tag-item').length;
+    count = Math.max(0, count - 1); // Subtract 1 to exclude the "All" tag
+    elements.footerCount.textContent = `${count} tag${count !== 1 ? 's' : ''}`;
+  }
 }
 
 // Initialize the app

@@ -242,6 +242,7 @@ body.transition * {
   overflow-y: auto;
   padding: 0 var(--spacing-md);
   padding-bottom: var(--spacing-xl);
+  padding-bottom: 54px !important; /* 44px footer + 10px spacing */
 }
 
 /* Bookmark Cards */
@@ -781,3 +782,27 @@ body.transition * {
 }
 
 /* End Tags List Styles */
+
+/* iOS Footer */
+.ios-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  background-color: var(--ios-background);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--ios-separator);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm);
+  z-index: 5;
+}
+
+.footer-count {
+  font-size: 13px;
+  color: var(--ios-text-secondary);
+  font-weight: 500;
+}
