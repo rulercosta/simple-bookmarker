@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Bookmarker</title>
-  <!-- Prevent flash of wrong theme -->
   <script>
-    // Apply saved theme immediately before any rendering
     (function() {
       const savedTheme = localStorage.getItem('theme');
       window.currentTheme = savedTheme || 'light';
@@ -19,14 +17,12 @@
   <link rel="stylesheet" href="./static/styles.css">
 </head>
 <body>
-  <!-- Navigation Bar -->
   <div class="nav-bar">
     <div class="nav-header">
       <h1 class="nav-title">Bookmarker</h1>
       <div style="display: flex; align-items: center;">
         <button class="theme-toggle" id="theme-toggle">
           <script>
-            // Immediately set the correct theme icon
             document.write('<span class="material-icons" id="theme-icon">' + 
               (window.currentTheme === 'dark' ? 'light_mode' : 'dark_mode') + 
               '</span>');
@@ -43,55 +39,40 @@
     </div>
   </div>
 
-  <!-- Main Content -->
   <div class="main-content">
-    <!-- View - All -->
     <div class="view-container active" id="all-view">
-      <!-- Empty State -->
       <div class="empty-state" id="empty-state">
         <span class="material-icons empty-icon">bookmarks</span>
         <h2 class="empty-title">No Bookmarks Yet</h2>
         <p class="empty-description">Add your first bookmark by tapping the + button in the header.</p>
       </div>
 
-      <!-- Bookmarks List -->
-      <div id="bookmarks-container" class="bookmark-list">
-        <!-- Will be populated by JS -->
-      </div>
+      <div id="bookmarks-container" class="bookmark-list"></div>
     </div>
     
-    <!-- View - Tags -->
     <div class="view-container" id="tags-view">
-      <!-- Tags Empty State -->
       <div class="empty-state" id="tags-empty-state">
         <span class="material-icons empty-icon">sell</span>
         <h2 class="empty-title">No Tags</h2>
         <p class="empty-description">Add tags to your bookmarks to organize them.</p>
       </div>
 
-      <!-- Tags List -->
-      <div id="tags-container" class="tags-list">
-        <!-- Will be populated by JS -->
-      </div>
+      <div id="tags-container" class="tags-list"></div>
     </div>
   </div>
 
-  <!-- Bottom Controls -->
   <div class="bottom-controls">
-    <!-- iOS Segmented Control -->
     <div class="segmented-control" id="view-selector">
       <div class="segment selected" data-view="all-view" id="segment-all">All</div>
       <div class="segment" data-view="tags-view" id="segment-tags">Tags</div>
       <div class="segment-selector"></div>
     </div>
     
-    <!-- iOS Footer -->
     <div class="ios-footer" id="ios-footer">
       <span class="footer-count" id="footer-count">0 items</span>
     </div>
   </div>
 
-  <!-- Add/Edit Bookmark Modal -->
   <div class="modal-overlay" id="modal-overlay"></div>
   <div class="modal" id="bookmark-modal">
     <div class="modal-header">
@@ -122,7 +103,6 @@
     </div>
   </div>
 
-  <!-- Context Menu -->
   <div class="context-menu" id="context-menu">
     <div class="context-menu-item" id="context-edit">
       <span class="material-icons">edit</span>
@@ -139,7 +119,6 @@
     </div>
   </div>
 
-  <!-- Toast Notification Container -->
   <div class="toast-container" id="toast-container"></div>
   <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
   <script src="./static/script.js"></script>
