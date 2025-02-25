@@ -54,6 +54,7 @@ class BookmarksDB {
 // App initialization
 const db = new BookmarksDB();
 let selectedBookmark = null;
+let currentTag = null;
 
 // DOM Elements
 const elements = {
@@ -174,9 +175,7 @@ function switchView(viewId) {
   
   // Handle specific view logic
   if (viewId === 'tags-view') {
-    // Will implement tags view logic later
-    // This is just placeholder for now
-    console.log('Tags view selected - implementation coming soon');
+    loadBookmarks(); // This will now update both bookmarks and tags
   }
 }
 
@@ -247,7 +246,16 @@ function setupModalGestures() {
 // Load and render bookmarks
 async function loadBookmarks() {
   const bookmarks = await db.getAllBookmarks();
-  renderBookmarks(bookmarks);
+  if (currentTag) {
+    const filtered = bookmarks.filter(bookmark => 
+      bookmark.tags && bookmark.tags.includes(currentTag)
+    );
+    renderBookmarks(filtered);
+    updateTagsView(bookmarks); // Keep tags view updated
+  } else {
+    renderBookmarks(bookmarks);
+    updateTagsView(bookmarks);
+  }
 }
 
 // Render bookmarks
@@ -498,6 +506,7 @@ async function deleteBookmark(id) {
   try {
     await db.deleteBookmark(id);
     showToast('Bookmark deleted successfully');
+    currentTag = null; // Reset tag filter when deleting
     loadBookmarks();
   } catch (error) {
     showToast('Error deleting bookmark');
@@ -540,7 +549,7 @@ async function handleBookmarkSubmit(e) {
       showToast('Bookmark added successfully');
     }
     
-    loadBookmarks();
+    loadBookmarks(); // This will now update both bookmarks and tags
     hideBookmarkModal();
   } catch (error) {
     showToast('Error saving bookmark');
@@ -553,6 +562,70 @@ document.addEventListener('click', (e) => {
     hideContextMenu();
   }
 });
+
+// Add new function to get unique tags and their counts
+function getTagsWithCounts(bookmarks) {
+  const tagCount = new Map();
+  tagCount.set('All', bookmarks.length); // Add "All" option with total count
+  
+  bookmarks.forEach(bookmark => {
+    if (bookmark.tags) {
+      bookmark.tags.forEach(tag => {
+        tagCount.set(tag, (tagCount.get(tag) || 0) + 1);
+      });
+    }
+  });
+  
+  return tagCount;
+}
+
+// Add new function to update tags view
+async function updateTagsView(bookmarks) {
+  const tagsContainer = document.getElementById('tags-container');
+  const tagsEmptyState = document.getElementById('tags-empty-state');
+  
+  const tagCount = getTagsWithCounts(bookmarks);
+  
+  if (tagCount.size <= 1) { // Only has "All" tag
+    tagsContainer.innerHTML = '';
+    tagsEmptyState.classList.add('visible');
+    return;
+  }
+  
+  tagsEmptyState.classList.remove('visible');
+  
+  const tagsHtml = Array.from(tagCount.entries())
+    .map(([tag, count]) => `
+      <div class="tag-item ${currentTag === tag ? 'active' : ''}" data-tag="${tag}">
+        <span class="tag-name">${escapeHtml(tag)}</span>
+        <span class="tag-count">${count}</span>
+      </div>
+    `)
+    .join('');
+  
+  tagsContainer.innerHTML = tagsHtml;
+  
+  // Add click handlers
+  document.querySelectorAll('.tag-item').forEach(tagItem => {
+    tagItem.addEventListener('click', () => {
+      const tag = tagItem.dataset.tag;
+      
+      // If clicking the same tag again or clicking "All", remove filter
+      if (currentTag === tag || tag === 'All') {
+        currentTag = null;
+      } else {
+        currentTag = tag;
+      }
+      
+      // Switch to All view when tag is selected
+      if (elements.segmentAll) {
+        elements.segmentAll.click();
+      }
+      
+      loadBookmarks();
+    });
+  });
+}
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', initApp);
