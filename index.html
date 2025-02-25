@@ -4,17 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Bookmarker</title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Tasks</title>
   <link href="https://fonts.cdnfonts.com/css/sf-pro-display" rel="stylesheet">
-  <link rel="stylesheet" href="./static/styles.css" id="app-styles" disabled>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="static/environment.js"></script>    
   <meta name="theme-color" content="#000000">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="Bookmarker">
+  <link rel="stylesheet" href="./static/styles.css" id="app-styles" disabled>
   <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon-16x16.png">
   <link rel="apple-touch-icon" href="./static/apple-touch-icon.png">
@@ -34,110 +31,113 @@
   <link rel="stylesheet" href="./static/styles.css">
 </head>
 <body>
-  <div class="nav-bar">
-    <div class="nav-header">
-      <h1 class="nav-title">Bookmarker</h1>
-      <div style="display: flex; align-items: center;">
-        <button class="theme-toggle" id="theme-toggle">
-          <script>
-            document.write('<span class="material-icons" id="theme-icon">' + 
-              (window.currentTheme === 'dark' ? 'light_mode' : 'dark_mode') + 
-              '</span>');
-          </script>
+  <div id="readme-container"></div>
+  <div id="app-container">
+    <div class="nav-bar">
+      <div class="nav-header">
+        <h1 class="nav-title">Bookmarker</h1>
+        <div style="display: flex; align-items: center;">
+          <button class="theme-toggle" id="theme-toggle">
+            <script>
+              document.write('<span class="material-icons" id="theme-icon">' + 
+                (window.currentTheme === 'dark' ? 'light_mode' : 'dark_mode') + 
+                '</span>');
+            </script>
+          </button>
+          <button class="header-button" id="add-button">
+            <span class="material-icons">add</span>
+          </button>
+        </div>
+      </div>
+      <div class="search-bar">
+        <span class="material-icons">search</span>
+        <input type="text" id="search-input" placeholder="Search bookmarks">
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="view-container active" id="all-view">
+        <div class="empty-state" id="empty-state">
+          <span class="material-icons empty-icon">bookmarks</span>
+          <h2 class="empty-title">No Bookmarks Yet</h2>
+          <p class="empty-description">Add your first bookmark by tapping the + button in the header.</p>
+        </div>
+
+        <div id="bookmarks-container" class="bookmark-list"></div>
+      </div>
+      
+      <div class="view-container" id="tags-view">
+        <div class="empty-state" id="tags-empty-state">
+          <span class="material-icons empty-icon">sell</span>
+          <h2 class="empty-title">No Tags</h2>
+          <p class="empty-description">Add tags to your bookmarks to organize them.</p>
+        </div>
+
+        <div id="tags-container" class="tags-list"></div>
+      </div>
+    </div>
+
+    <div class="bottom-controls">
+      <div class="segmented-control" id="view-selector">
+        <div class="segment selected" data-view="all-view" id="segment-all">All</div>
+        <div class="segment" data-view="tags-view" id="segment-tags">Tags</div>
+        <div class="segment-selector"></div>
+      </div>
+      
+      <div class="ios-footer" id="ios-footer">
+        <span class="footer-count" id="footer-count">0 items</span>
+      </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal" id="bookmark-modal">
+      <div class="modal-header">
+        <button type="button" class="modal-button cancel" id="modal-cancel">
+          <span class="material-icons">close</span>
         </button>
-        <button class="header-button" id="add-button">
-          <span class="material-icons">add</span>
+        <h2 class="modal-title" id="modal-title">Add Bookmark</h2>
+        <button type="submit" form="bookmark-form" class="modal-button" id="modal-save">
+          <span class="material-icons">save</span>
         </button>
       </div>
-    </div>
-    <div class="search-bar">
-      <span class="material-icons">search</span>
-      <input type="text" id="search-input" placeholder="Search bookmarks">
-    </div>
-  </div>
-
-  <div class="main-content">
-    <div class="view-container active" id="all-view">
-      <div class="empty-state" id="empty-state">
-        <span class="material-icons empty-icon">bookmarks</span>
-        <h2 class="empty-title">No Bookmarks Yet</h2>
-        <p class="empty-description">Add your first bookmark by tapping the + button in the header.</p>
+      <div class="modal-content">
+        <form id="bookmark-form">
+          <div class="form-group">
+            <label class="form-label" for="bookmark-url">URL</label>
+            <input type="url" id="bookmark-url" name="bookmark-url" class="form-input" placeholder="https://example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bookmark-title">Title</label>
+            <input type="text" id="bookmark-title" name="bookmark-title" class="form-input" placeholder="Website Title" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bookmark-tags">Tags</label>
+            <input type="text" id="bookmark-tags" name="bookmark-tags" class="form-input" placeholder="news, tech, reference">
+            <p class="tags-input-hint">Separate tags with commas</p>
+          </div>
+        </form>
       </div>
-
-      <div id="bookmarks-container" class="bookmark-list"></div>
     </div>
-    
-    <div class="view-container" id="tags-view">
-      <div class="empty-state" id="tags-empty-state">
-        <span class="material-icons empty-icon">sell</span>
-        <h2 class="empty-title">No Tags</h2>
-        <p class="empty-description">Add tags to your bookmarks to organize them.</p>
+
+    <div class="context-menu" id="context-menu">
+      <div class="context-menu-item" id="context-edit">
+        <span class="material-icons">edit</span>
+        <span>Edit</span>
       </div>
-
-      <div id="tags-container" class="tags-list"></div>
+      <div class="context-menu-item" id="context-copy">
+        <span class="material-icons">content_copy</span>
+        <span>Copy URL</span>
+      </div>
+      <div class="context-menu-divider"></div>
+      <div class="context-menu-item delete" id="context-delete">
+        <span class="material-icons">delete</span>
+        <span>Delete</span>
+      </div>
     </div>
+
+    <div class="toast-container" id="toast-container"></div>
+    <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
+    <script src="./static/script.js"></script>
   </div>
-
-  <div class="bottom-controls">
-    <div class="segmented-control" id="view-selector">
-      <div class="segment selected" data-view="all-view" id="segment-all">All</div>
-      <div class="segment" data-view="tags-view" id="segment-tags">Tags</div>
-      <div class="segment-selector"></div>
-    </div>
-    
-    <div class="ios-footer" id="ios-footer">
-      <span class="footer-count" id="footer-count">0 items</span>
-    </div>
-  </div>
-
-  <div class="modal-overlay" id="modal-overlay"></div>
-  <div class="modal" id="bookmark-modal">
-    <div class="modal-header">
-      <button type="button" class="modal-button cancel" id="modal-cancel">
-        <span class="material-icons">close</span>
-      </button>
-      <h2 class="modal-title" id="modal-title">Add Bookmark</h2>
-      <button type="submit" form="bookmark-form" class="modal-button" id="modal-save">
-        <span class="material-icons">save</span>
-      </button>
-    </div>
-    <div class="modal-content">
-      <form id="bookmark-form">
-        <div class="form-group">
-          <label class="form-label" for="bookmark-url">URL</label>
-          <input type="url" id="bookmark-url" name="bookmark-url" class="form-input" placeholder="https://example.com" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="bookmark-title">Title</label>
-          <input type="text" id="bookmark-title" name="bookmark-title" class="form-input" placeholder="Website Title" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="bookmark-tags">Tags</label>
-          <input type="text" id="bookmark-tags" name="bookmark-tags" class="form-input" placeholder="news, tech, reference">
-          <p class="tags-input-hint">Separate tags with commas</p>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <div class="context-menu" id="context-menu">
-    <div class="context-menu-item" id="context-edit">
-      <span class="material-icons">edit</span>
-      <span>Edit</span>
-    </div>
-    <div class="context-menu-item" id="context-copy">
-      <span class="material-icons">content_copy</span>
-      <span>Copy URL</span>
-    </div>
-    <div class="context-menu-divider"></div>
-    <div class="context-menu-item delete" id="context-delete">
-      <span class="material-icons">delete</span>
-      <span>Delete</span>
-    </div>
-  </div>
-
-  <div class="toast-container" id="toast-container"></div>
-  <script src="https://unpkg.com/dexie/dist/dexie.js"></script>
-  <script src="./static/script.js"></script>
 </body>
 </html>
