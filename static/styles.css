@@ -1,0 +1,742 @@
+/* Reset and Base Styles */
+:root {
+  /* iOS Colors - Light Theme */
+  --ios-blue: #007AFF;
+  --ios-gray: #8E8E93;
+  --ios-light-gray: #E5E5EA;
+  --ios-background: #F2F2F7;
+  --ios-card: #FFFFFF;
+  --ios-red: #FF3B30;
+  --ios-text-primary: #000000;
+  --ios-text-secondary: #8E8E93;
+  --ios-border: rgba(60, 60, 67, 0.1);
+  --ios-separator: rgba(60, 60, 67, 0.05);
+  --ios-tag-bg: #E5E5EA;
+  --ios-tag-active: #007AFF;
+
+  /* System spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Animation timings */
+  --timing-fast: 0.15s;
+  --timing-normal: 0.25s;
+  --timing-slow: 0.35s;
+}
+
+/* Dark theme variables */
+:root.dark-theme {
+  --ios-blue: #0A84FF;
+  --ios-gray: #8E8E93;
+  --ios-light-gray: #3A3A3C;
+  --ios-background: #000000;
+  --ios-card: #1C1C1E;
+  --ios-red: #FF453A;
+  --ios-text-primary: #FFFFFF;
+  --ios-text-secondary: #AEAEB2;
+  --ios-border: rgba(140, 140, 140, 0.1);
+  --ios-separator: rgba(140, 140, 140, 0.1);
+  --ios-tag-bg: #3A3A3C;
+  --ios-tag-active: #0A84FF;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-overflow-scrolling: touch; /* For iOS momentum scrolling */
+}
+
+/* SF Pro Font Stack */
+@font-face {
+  font-family: 'SF Pro Text';
+  src: local('-apple-system'), local('BlinkMacSystemFont');
+  font-weight: normal;
+}
+
+body {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--ios-background);
+  color: var(--ios-text-primary);
+  line-height: 1.5;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Navigation Bar */
+.nav-bar {
+  background-color: var(--ios-background);
+  padding: var(--spacing-md) var(--spacing-md) var(--spacing-sm);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: all var(--timing-normal) ease;
+}
+
+.nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-sm);
+}
+
+.nav-title {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 34px;
+  font-weight: bold;
+  transition: font-size var(--timing-normal) ease;
+}
+
+.header-button {
+  background-color: transparent;
+  border: none;
+  color: var(--ios-blue);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--timing-fast) ease;
+}
+
+.header-button .material-icons {
+  font-size: 24px;
+}
+
+.header-button:active {
+  background-color: var(--ios-light-gray);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  background-color: transparent;
+  border: none;
+  color: var(--ios-blue);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-right: var(--spacing-sm);
+  transition: background-color var(--timing-fast) ease, transform var(--timing-normal) ease;
+}
+
+.theme-toggle:active {
+  background-color: var(--ios-light-gray);
+  transform: scale(0.95);
+}
+
+.theme-toggle .material-icons {
+  font-size: 24px;
+  transition: transform var(--timing-normal) ease;
+}
+
+body.transition {
+  transition: background-color var(--timing-normal) ease;
+}
+
+body.transition * {
+  transition: background-color var(--timing-normal) ease, color var(--timing-normal) ease, border-color var(--timing-normal) ease;
+}
+
+/* Search Bar */
+.search-bar {
+  background-color: var(--ios-light-gray);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+  transition: all var(--timing-normal) ease;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 17px;
+  width: 100%;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  outline: none;
+  color: var(--ios-text-primary);
+}
+
+.search-bar .material-icons {
+  color: var(--ios-gray);
+  font-size: 20px;
+}
+
+/* iOS Segmented Control */
+.segmented-control {
+  display: flex;
+  background-color: var(--ios-light-gray);
+  border-radius: 8px;
+  padding: 2px;
+  margin-bottom: var(--spacing-md);
+  position: relative;
+}
+
+.segment {
+  flex: 1;
+  text-align: center;
+  padding: var(--spacing-xs) var(--spacing-md);
+  color: var(--ios-text-secondary);
+  font-weight: 500;
+  font-size: 14px;
+  z-index: 1;
+  transition: color var(--timing-normal) ease;
+  user-select: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.segment.selected {
+  color: #FFFFFF; /* Always white text on blue background */
+}
+
+.segment-selector {
+  position: absolute;
+  height: calc(100% - 4px);
+  top: 2px;
+  z-index: 0;
+  background-color: var(--ios-blue); /* Always iOS blue */
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform var(--timing-normal) cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.segment:active {
+  opacity: 0.7;
+}
+
+:root.dark-theme .segmented-control {
+  background-color: var(--ios-light-gray);
+}
+
+/* View containers for different tabs */
+.view-container {
+  display: none;
+  flex-direction: column;
+}
+
+.view-container.active {
+  display: flex;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 var(--spacing-md);
+  padding-bottom: var(--spacing-xl);
+}
+
+/* Bookmark Cards */
+.bookmark-list {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column by default for phones */
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) 0;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 640px) {
+  .bookmark-list {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bookmark-list {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dynamic columns for desktop */
+    max-width: 1200px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .bookmark-list {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Slightly wider cards for large screens */
+    max-width: 1400px;
+  }
+}
+
+/* Ensure consistent card appearance */
+.bookmark-item {
+  height: 100%;
+  min-width: 0; /* Allows cards to shrink below their minimum content size */
+}
+
+.bookmark-item {
+  background-color: var(--ios-card);
+  border-radius: 14px;
+  padding: var(--spacing-md);
+  box-shadow: 0 1px 5px var(--ios-separator);
+  transition: transform var(--timing-fast) ease, box-shadow var(--timing-fast) ease;
+  position: relative;
+  transform-origin: center;
+  touch-action: pan-y;
+}
+
+.bookmark-item:active {
+  transform: scale(0.98);
+}
+
+.bookmark-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.favicon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--ios-light-gray);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.favicon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favicon .fallback-icon {
+  font-size: 24px;
+  color: var(--ios-blue);
+}
+
+.bookmark-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bookmark-info h3 {
+  font-weight: 600;
+  font-size: 17px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.bookmark-info p {
+  font-size: 14px;
+  color: var(--ios-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Empty State */
+.empty-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+  height: 100%;
+  transition: opacity var(--timing-normal) ease;
+}
+
+.empty-state.visible {
+  display: flex;
+}
+
+.empty-icon {
+  font-size: 64px !important;
+  margin-bottom: var(--spacing-md);
+  color: var(--ios-blue);
+}
+
+.empty-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.empty-description {
+  color: var(--ios-text-secondary);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 1000;
+  display: none;
+  opacity: 0;
+  transition: opacity var(--timing-normal) ease;
+}
+
+:root.dark-theme .modal-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(242, 242, 247, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top-left-radius: 14px;
+  border-top-right-radius: 14px;
+  z-index: 1001;
+  transform: translateY(100%);
+  transition: transform var(--timing-normal) cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+:root.dark-theme .modal {
+  background-color: rgba(28, 28, 30, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.modal.visible {
+  transform: translateY(0);
+  display: flex;
+}
+
+/* Visible overlay */
+.modal-overlay.visible {
+  opacity: 1;
+}
+
+/* iOS-style drag indicator on modal */
+.modal::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 5px;
+  width: 36px;
+  background-color: var(--ios-light-gray);
+  border-radius: 3px;
+  opacity: 0.5;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--ios-separator);
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 32px;
+}
+
+.modal-button {
+  padding: var(--spacing-xs);
+  color: var(--ios-blue);
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: background-color var(--timing-fast) ease;
+}
+
+.modal-button:active {
+  background-color: var(--ios-light-gray);
+}
+
+.modal-button .material-icons {
+  font-size: 20px;
+}
+
+.modal-button.cancel {
+  color: var(--ios-gray);
+}
+
+.modal-content {
+  padding: var(--spacing-md);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: 14px;
+  color: var(--ios-text-secondary);
+  margin-bottom: var(--spacing-xs);
+  font-weight: 500;
+  padding-left: var(--spacing-xs);
+}
+
+.form-input {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: 17px;
+  font-family: inherit;
+  background-color: var(--ios-light-gray);
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  color: var(--ios-text-primary);
+}
+
+.form-input::placeholder {
+  color: var(--ios-gray);
+}
+
+.form-input:focus {
+  box-shadow: 0 0 0 2px var(--ios-blue);
+}
+
+/* Context Menu */
+.context-menu {
+  position: fixed;
+  min-width: 220px;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: none;
+  padding: var(--spacing-xs) 0;
+  color: var(--ios-text-primary);
+  transition: background-color var(--timing-normal) ease;
+}
+
+:root.dark-theme .context-menu {
+  background-color: rgba(44, 44, 46, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.context-menu.visible {
+  display: block;
+}
+
+.context-menu-item {
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: background-color var(--timing-fast) ease;
+}
+
+.context-menu-item:active {
+  background-color: var(--ios-light-gray);
+}
+
+.context-menu-item .material-icons {
+  color: var(--ios-blue);
+  font-size: 20px;
+}
+
+.context-menu-item.delete .material-icons {
+  color: var(--ios-red);
+}
+
+.context-menu-divider {
+  height: 1px;
+  background-color: var(--ios-separator);
+  margin: var(--spacing-xs) 0;
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  z-index: 2000;
+  pointer-events: none;
+}
+
+.toast {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 80%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: none;
+  margin-bottom: var(--spacing-sm);
+}
+
+.toast.visible {
+  display: block;
+  animation: fadeInDown 0.3s ease-out forwards;
+}
+
+:root.dark-theme .toast {
+  background-color: rgba(70, 70, 70, 0.9);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Material Icons styling */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .main-content {
+    padding: 0 var(--spacing-xl);
+  }
+
+  .bookmark-list {
+    max-width: 100%; /* Remove fixed width constraint */
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Create responsive grid */
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) 0;
+  }
+
+  .bookmark-item {
+    margin: 0; /* Remove default margin */
+    height: 100%; /* Ensure consistent height */
+  }
+
+  .modal {
+    left: 50%;
+    right: auto;
+    bottom: 50%;
+    transform: translate(-50%, 100%);
+    width: 480px;
+    max-width: 90vw;
+    max-height: 80vh;
+    border-radius: 14px;
+  }
+
+  .modal.visible {
+    transform: translate(-50%, 50%);
+  }
+
+  /* Desktop modal should have drag indicator too */
+  .modal::before {
+    top: 8px;
+  }
+
+  .nav-bar {
+    padding: var(--spacing-lg) var(--spacing-xl) var(--spacing-md);
+  }
+  
+  .nav-header {
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+/* Add an additional breakpoint for very large screens */
+@media (min-width: 1440px) {
+  .bookmark-list {
+    max-width: 1400px; /* Limit maximum width on very large screens */
+    margin: 0 auto;
+  }
+}
+
+/* Tag badge for bookmark items */
+.tag-badge {
+  display: inline-block;
+  background-color: var(--ios-tag-bg);
+  border-radius: 10px;
+  padding: 2px var(--spacing-xs);
+  font-size: 12px;
+  margin-right: var(--spacing-xs);
+  margin-top: var (--spacing-xs);
+  color: var(--ios-text-secondary);
+}
+
+.bookmark-tags {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-xs);
+}
+
+/* Form styling for tags */
+.tags-input-hint {
+  font-size: 12px;
+  color: var(--ios-text-secondary);
+  margin-top: var(--spacing-xs);
+  padding-left: var(--spacing-xs);
+}
+
+/* iOS blur effect classes */
+.ios-blur {
+  filter: blur(10px);
+  transition: filter var(--timing-normal) ease;
+}
