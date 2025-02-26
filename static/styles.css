@@ -24,6 +24,9 @@
   --timing-fast: 0.15s;
   --timing-normal: 0.25s;
   --timing-slow: 0.35s;
+
+  --nav-height: 0px;
+  --bottom-height: 0px;
 }
 
 
@@ -64,7 +67,9 @@ body {
   line-height: 1.5;
   font-size: 17px;
   -webkit-font-smoothing: antialiased;
-  height: 100vh;
+  height: 100%; /* Change from 100vh */
+  min-height: 100vh;
+  min-height: -webkit-fill-available; /* For iOS */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -239,8 +244,10 @@ body.transition * {
 .main-content {
   flex: 1;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  height: calc(100vh - var(--nav-height) - var(--bottom-height));
   padding: 0 var(--spacing-md);
-  padding-bottom: 98px !important; 
+  padding-bottom: var(--spacing-md);
 }
 
 

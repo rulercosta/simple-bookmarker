@@ -81,10 +81,11 @@ elements.bookmarkForm.addEventListener('submit', handleBookmarkSubmit);
 
 async function initApp() {
   await loadBookmarks();
-  
   setupContextMenu();
-  
   setupSegmentedControl();
+  updateLayoutHeights();
+  
+  window.addEventListener('resize', updateLayoutHeights);
   
   document.addEventListener('click', () => {
     hideContextMenu();
@@ -99,6 +100,14 @@ async function initApp() {
   initializeSegmentSelector();
 
   loadSelectedView();
+}
+
+function updateLayoutHeights() {
+  const navHeight = elements.navBar.offsetHeight;
+  const bottomHeight = document.querySelector('.bottom-controls').offsetHeight;
+  
+  document.documentElement.style.setProperty('--nav-height', `${navHeight}px`);
+  document.documentElement.style.setProperty('--bottom-height', `${bottomHeight}px`);
 }
 
 function initializeSegmentSelector() {
