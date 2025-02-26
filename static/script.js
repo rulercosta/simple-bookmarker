@@ -285,8 +285,10 @@ function createBookmarkElement(bookmark) {
     showContextMenu(e, bookmark);
   });
   
-  div.addEventListener('click', () => {
-    window.open(bookmark.url, '_blank');
+  div.addEventListener('click', (e) => {
+    if (!elements.contextMenu.classList.contains('visible')) {
+      window.open(bookmark.url, '_blank');
+    }
   });
   
   return div;
@@ -495,8 +497,12 @@ async function handleBookmarkSubmit(e) {
 }
 
 document.addEventListener('click', (e) => {
-  if (!elements.contextMenu.contains(e.target)) {
-    hideContextMenu();
+  if (elements.contextMenu.classList.contains('visible')) {
+    if (!elements.contextMenu.contains(e.target)) {
+      e.preventDefault(); 
+      e.stopPropagation(); 
+      hideContextMenu();
+    }
   }
 });
 
