@@ -585,10 +585,10 @@ function updateFooterCount() {
 document.addEventListener('DOMContentLoaded', initApp);
 
 document.getElementById('theme-toggle').addEventListener('click', () => {
-  document.documentElement.classList.toggle('dark-theme');
+  const isDark = document.documentElement.classList.toggle('dark-theme');
   const themeIcon = document.getElementById('theme-icon');
   
-  if (document.documentElement.classList.contains('dark-theme')) {
+  if (isDark) {
     themeIcon.textContent = 'light_mode';
     localStorage.setItem('theme', 'dark');
     window.currentTheme = 'dark';
@@ -596,6 +596,13 @@ document.getElementById('theme-toggle').addEventListener('click', () => {
     themeIcon.textContent = 'dark_mode';
     localStorage.setItem('theme', 'light');
     window.currentTheme = 'light';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const themeIcon = document.getElementById('theme-icon');
+  if (themeIcon) {
+    themeIcon.textContent = window.currentTheme === 'dark' ? 'light_mode' : 'dark_mode';
   }
 });
 

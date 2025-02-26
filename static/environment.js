@@ -33,6 +33,12 @@ function setupEnvironment() {
     }
 
     if (isPWA()) {
+        const savedTheme = localStorage.getItem('theme');
+        window.currentTheme = savedTheme || 'light';
+        if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark-theme');
+        }
+
         document.body.classList.add('pwa-mode');
         if (readmeContainer) readmeContainer.style.display = 'none';
         if (appContainer) appContainer.style.display = 'block';
