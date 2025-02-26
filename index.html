@@ -17,18 +17,20 @@
   <link rel="apple-touch-icon" href="./static/apple-touch-icon.png">
   <link rel="shortcut icon" href="static/favicon.ico">
   <link rel="manifest" href="./static/manifest.json">
-  <meta name="msapplication-TileColor" content="#000000">    
-  <script>
-    (function() {
-      const savedTheme = localStorage.getItem('theme');
-      window.currentTheme = savedTheme || 'light';
-      if (savedTheme === 'dark') {
-        document.documentElement.classList.add('dark-theme');
-      }
-    })();
-  </script>
+  <meta name="msapplication-TileColor" content="#000000">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="./static/styles.css">
+  <style>
+    #app-container, #readme-container {
+        display: none;
+    }
+    html {
+        visibility: hidden;
+    }
+    html.ready {
+        visibility: visible;
+    }
+  </style>
 </head>
 <body>
   <div id="readme-container"></div>
